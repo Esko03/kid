@@ -1,0 +1,437 @@
+{
+  "research_date": "November 26, 2025",
+  "project": "Foxy Kids - Flutter English Learning App",
+  "target_age_group": "4-12 years",
+  "completion_status": "~30% (UI complete, no persistence/logic)",
+  
+  "1_supabase_setup": {
+    "status": "NONE",
+    "description": "Supabase integration planned but not implemented",
+    "details": {
+      "planning_stage": "Planned for Phase 4 (Weeks 11-12 of development)",
+      "pubspec_dependencies": "Not added - Supabase package not in pubspec.yaml",
+      "environment_config": ".env file exists with placeholder values:",
+      ".env_content": {
+        "SUPABASE_URL": "https://YOUR_PROJECT.supabase.co",
+        "SUPABASE_ANON_KEY": "YOUR_ANON_KEY"
+      },
+      "existing_supabase_files": [
+        "lib/supabase/payment.dart (empty)",
+        "lib/supabase/screen_model.dart (empty)"
+      ],
+      "initialization": "Not in main.dart - no Supabase client initialization"
+    },
+    "key_files": [
+      "pubspec.yaml",
+      ".env",
+      "lib/supabase/payment.dart",
+      "lib/supabase/screen_model.dart"
+    ],
+    "gaps_and_todos": [
+      "Add flutter_supabase package to pubspec.yaml",
+      "Implement Supabase client initialization in main.dart",
+      "Create .env.example for documentation",
+      "Setup real Supabase project credentials",
+      "Configure Supabase package dependencies (gotrue, storage, realtime)"
+    ]
+  },
+
+  "2_authentication_flow": {
+    "status": "PARTIAL",
+    "description": "UI screens exist but no actual authentication logic implemented",
+    "details": {
+      "onboarding_flow": [
+        "SplashScreen (2 second delay)",
+        "WelcomeScreen",
+        "AgeSelectionScreen",
+        "ModeSelectionScreen",
+        "HomeScreen (after pushAndRemoveUntil)"
+      ],
+      "current_implementation": "Stateless navigation using Navigator.push/pushAndRemoveUntil",
+      "placeholder_auth": "No login/signup - only age and mode selection",
+      "session_management": "None - all data is hardcoded"
+    },
+    "key_files": [
+      "lib/screens/splash_screen.dart",
+      "lib/screens/onboarding/welcome_screen.dart",
+      "lib/screens/onboarding/age_selection_screen.dart",
+      "lib/screens/onboarding/mode_selection_screen.dart",
+      "lib/main.dart"
+    ],
+    "gaps_and_todos": [
+      "Create auth_repository.dart for Supabase auth",
+      "Implement email/password authentication",
+      "Add social login (Google, Apple) - optional",
+      "Create user registration flow",
+      "Implement password reset",
+      "Add session persistence with shared_preferences",
+      "Create parent/child account linking mechanism",
+      "Implement JWT token refresh logic"
+    ]
+  },
+
+  "3_database_schema_models": {
+    "status": "PARTIAL",
+    "description": "Database models are fully designed in documentation but not implemented in code",
+    "details": {
+      "documentation_location": "plan/06_database_models/data_architecture.md",
+      "implementation_status": "Designed but no drift/SQLite code exists",
+      "planned_database": "SQLite + drift ORM",
+      "models_documented": [
+        "User (id, name, age, createdAt, lastActiveAt, preferences)",
+        "UserPreferences (sound, volume, notifications, language, difficulty, timeLimit, parentalControls)",
+        "Lesson (id, title, type, difficulty, steps, category, prerequisites)",
+        "LessonStep (id, lessonId, content, type, data, audioUrl, imageUrl)",
+        "VocabularyWord (id, word, pronunciation, definition, imageUrl, audioUrl, category, examples)",
+        "WordCategory (id, name, description, iconUrl, wordIds, difficulty)",
+        "UserProgress (userId, lessons, categories, totalStars, streaks, learningTime)",
+        "LessonProgress (lessonId, userId, completed, score, stars, attempts, timeSpent)",
+        "StepProgress (stepId, completed, attempts, score, timeSpent)",
+        "CategoryProgress (categoryId, completedLessons, progressPercentage)",
+        "Achievement (id, title, type, criteria, points)",
+        "UserAchievement (userId, achievementId, unlockedAt, progress)",
+        "Game (id, name, type, description, levels)",
+        "GameSession (id, userId, gameId, score, timeSpent, results)",
+        "LearningAnalytics (userId, date, timeSpent, lessonsCompleted, gamesPlayed, categoryProgress)",
+        "SessionData (startTime, endTime, activityType, duration, score)",
+        "ParentReport (userId, generatedAt, analytics, achievements, recommendations)"
+      ],
+      "sql_schema_documented": "Yes - complete SQL schema in data_architecture.md lines 301-400",
+      "current_hardcoded_data": [
+        "Streak counter = '7' (hardcoded in screens)",
+        "Game scores = static",
+        "Learning time = '24 hours' (placeholder)",
+        "Words mastered = '156 words' (placeholder)",
+        "Lessons completed = '32 lessons' (placeholder)"
+      ]
+    },
+    "key_files": [
+      "plan/06_database_models/data_architecture.md (DESIGN REFERENCE)",
+      "plan/01_incomplete_features/learning_system_requirements.md"
+    ],
+    "gaps_and_todos": [
+      "Create lib/data/database/app_database.dart (drift setup)",
+      "Create lib/data/models/ directory with all model files",
+      "Implement drift annotations (@DataClass, @DriftDatabase)",
+      "Create database migration system",
+      "Implement database initialization logic",
+      "Add seed data for lessons and vocabulary",
+      "Create repository layer (lib/data/repositories/)",
+      "Write database unit tests",
+      "Implement database versioning strategy"
+    ]
+  },
+
+  "4_parent_dashboard_requirements": {
+    "status": "PARTIAL",
+    "description": "UI complete with glassmorphic design but no real data/functionality",
+    "details": {
+      "ui_sections": [
+        "Child Progress Overview (Total Time, Words Mastered, Lessons Completed)",
+        "Learning Analytics (Weekly Progress Chart - placeholder)",
+        "Content Controls (Daily Time Limit, Difficulty Level, Learning Reminders)",
+        "Reports & Insights (Weekly Report, Vocabulary List, Achievement Certificate)"
+      ],
+      "placeholder_controls": {
+        "daily_time_limit": "onChanged: () {} at line 183 (non-functional)",
+        "difficulty_level": "onTap: () {} (non-functional)",
+        "learning_reminders": "onTap: () {} (non-functional)",
+        "report_downloads": "onTap: () {} at line 289 (non-functional)"
+      },
+      "hardcoded_values": {
+        "total_learning_time": "24 hours",
+        "words_mastered": "156 words",
+        "lessons_completed": "32 lessons",
+        "weekly_chart": "Placeholder container only"
+      },
+      "required_features": [
+        "Real-time child progress analytics",
+        "Daily/weekly/monthly reports",
+        "Game play statistics (most played, highest scores)",
+        "Learning time tracking",
+        "Achievement unlock notifications",
+        "Parent account linking to child",
+        "PDF report generation and download",
+        "Content filtering and difficulty controls",
+        "Learning reminder scheduling",
+        "Child activity leaderboards"
+      ]
+    },
+    "key_files": [
+      "lib/screens/parent/parent_dashboard_screen.dart (UI complete, logic missing)",
+      "plan/07_documentation/development_roadmap.md (Week 9 specs)",
+      "plan/06_database_models/data_architecture.md (Analytics models section)"
+    ],
+    "gaps_and_todos": [
+      "Create analytics_repository.dart for data queries",
+      "Implement real-time data loading from Supabase",
+      "Create parent account linking system",
+      "Implement PDF report generation",
+      "Add time limit enforcement in game logic",
+      "Create difficulty level system",
+      "Implement learning reminder notifications",
+      "Add leaderboard queries and display",
+      "Create analytics chart widget (currently placeholder)",
+      "Implement content control backend logic"
+    ]
+  },
+
+  "5_payment_subscription_features": {
+    "status": "NONE",
+    "description": "Premium features planned but not documented or implemented",
+    "details": {
+      "premium_features_mentioned": "Yes, in plan/README.md",
+      "specific_tiers": "Not defined",
+      "billing_model": "Not specified",
+      "implementation_location": "lib/supabase/payment.dart (empty file)",
+      "payment_gateway": "Not chosen (Stripe, Google Play, App Store)",
+      "features_likely_premium": [
+        "Ad-free experience (implied by parent focus)",
+        "Advanced analytics for parents",
+        "Extended lesson content",
+        "Custom learning paths",
+        "Family accounts"
+      ],
+      "dev_plan_reference": "DEVELOPMENT_PLAN.md mentions payment briefly but no details"
+    },
+    "key_files": [
+      "lib/supabase/payment.dart (empty)",
+      "DEVELOPMENT_PLAN.md (brief mention only)",
+      "plan/README.md (implies premium tier)"
+    ],
+    "gaps_and_todos": [
+      "Define premium feature tiers and pricing",
+      "Choose payment gateway (Stripe, Paddle, RevenueCat)",
+      "Implement Supabase payment table schema",
+      "Create payment_repository.dart",
+      "Implement subscription verification logic",
+      "Add feature gating based on subscription",
+      "Create subscription management screen",
+      "Implement refund/cancellation flows",
+      "Add analytics for monetization",
+      "Create free trial system",
+      "Research kids app monetization regulations (COPPA)"
+    ]
+  },
+
+  "6_real_time_data_sync_requirements": {
+    "status": "NONE",
+    "description": "Real-time sync designed but not implemented; parent dashboard needs live updates",
+    "details": {
+      "planned_architecture": "SQLite (offline-first) ↔ Supabase (cloud sync)",
+      "sync_strategy": "Async sync - game logic writes locally, syncs to cloud",
+      "real_time_needs": [
+        "Parent dashboard shows live progress updates",
+        "Multi-device progress sync (child on tablet, parent viewing dashboard)",
+        "Achievement unlock notifications in real-time",
+        "Game session results immediately visible to parent"
+      ],
+      "conflict_resolution": "Last-write-wins for progress; merge for analytics",
+      "offline_queue": "Planned but not implemented",
+      "sync_frequency": "Not specified (on-demand, batch, realtime?)"
+    },
+    "key_files": [
+      "DEVELOPMENT_PLAN.md (Week 11: Authentication & Cloud Sync)",
+      "plan/06_database_models/data_architecture.md (Sync Manager section)",
+      "plan/07_documentation/development_roadmap.md (Week 11: Offline Support)"
+    ],
+    "code_examples_planned": {
+      "sync_manager": "class SyncManager { Future<void> syncUserProgress(); Future<void> syncAchievements(); Future<void> syncGameSessions(); }",
+      "repository": "lib/data/repositories/sync_repository.dart"
+    },
+    "gaps_and_todos": [
+      "Implement sync_repository.dart with conflict resolution",
+      "Setup Supabase realtime subscriptions for parent dashboard",
+      "Create offline queue system for pending syncs",
+      "Implement exponential backoff for failed syncs",
+      "Add sync status indicators in UI",
+      "Create data migration system for version upgrades",
+      "Implement sync error handling and user notifications",
+      "Add sync metrics and logging for debugging",
+      "Test network interruption scenarios",
+      "Implement partial sync recovery"
+    ]
+  },
+
+  "7_offline_first_requirements": {
+    "status": "NONE",
+    "description": "Offline-first architecture designed for SQLite + Supabase hybrid model",
+    "details": {
+      "offline_scope": "Core gameplay must work without internet",
+      "syncing_scope": "Background progress sync when online",
+      "planned_tech_stack": {
+        "local_db": "SQLite + drift ORM",
+        "sync_library": "Not specified (could use Supabase's sync engine)",
+        "conflict_resolution": "Last-write-wins"
+      },
+      "offline_capabilities": [
+        "Play any lesson without internet",
+        "Complete game sessions offline",
+        "Track progress locally",
+        "Access downloaded audio/images"
+      ],
+      "sync_on_reconnect": [
+        "Push local progress to Supabase",
+        "Fetch latest lesson content",
+        "Sync achievement unlocks",
+        "Update analytics"
+      ],
+      "data_loss_prevention": "Conflict resolution strategy documented (HIGH risk mitigation)",
+      "storage_estimate": "Not calculated - depends on asset caching"
+    },
+    "key_files": [
+      "DEVELOPMENT_PLAN.md (Week 11 planning)",
+      "plan/07_documentation/development_roadmap.md (Week 11 offline support)",
+      "plan/06_database_models/data_architecture.md (Sync strategy section)"
+    ],
+    "gaps_and_todos": [
+      "Implement SQLite database with proper indexing",
+      "Add asset caching (images, audio) strategy",
+      "Create offline status detection system",
+      "Implement sync queue persistence",
+      "Add network change listener",
+      "Create conflict resolution algorithm",
+      "Implement data versioning for migrations",
+      "Add offline mode UI indicators",
+      "Test with network simulator",
+      "Implement data integrity checks",
+      "Create backup/restore system"
+    ]
+  },
+
+  "8_state_management_approach": {
+    "status": "MINIMAL",
+    "description": "Mostly stateless widgets with minimal state; no sophisticated state management framework",
+    "details": {
+      "current_approach": "Stateless/Stateful mixed pattern",
+      "frameworks_used": "None (no Provider, Riverpod, GetIt, BLoC)",
+      "state_examples": [
+        "HomeScreen is StatefulWidget tracking _currentIndex for BottomNavBar",
+        "Most screens are StatelessWidget",
+        "Navigation: Navigator.of(context).push(MaterialPageRoute())"
+      ],
+      "data_flow": {
+        "current": "UI → Hardcoded data (no actual data layer)",
+        "planned": "UI → Repositories → Services → Local DB/Supabase"
+      },
+      "dependency_injection": "Not used - no GetIt or similar",
+      "global_state": "None - all data is screen-local",
+      "planned_repository_pattern": {
+        "structure": "lib/data/repositories/ with domain-specific repos",
+        "examples": [
+          "user_repository.dart",
+          "lesson_repository.dart",
+          "progress_repository.dart",
+          "auth_repository.dart",
+          "analytics_repository.dart",
+          "sync_repository.dart"
+        ]
+      }
+    },
+    "key_files": [
+      "lib/main.dart (simple MaterialApp)",
+      "lib/screens/home/home_screen.dart (only StatefulWidget)",
+      "DEVELOPMENT_PLAN.md (mentions 'mostly stateless + minimal state')"
+    ],
+    "dependencies_available": [
+      "shared_preferences (for settings persistence)",
+      "flutter_animate (for animations)",
+      "audioplayers (for audio)",
+      "google_fonts (for typography)"
+    ],
+    "gaps_and_todos": [
+      "Consider adding state management: GetIt + Repositories (recommended for this project)",
+      "OR use Provider (more modern but heavier)",
+      "OR use Riverpod (cutting edge but learning curve)",
+      "Create repository layer for data abstraction",
+      "Implement service locator (GetIt) for dependency injection",
+      "Create error handling and loading states",
+      "Add state machine for complex flows (auth, sync)",
+      "Implement proper BLoC/Cubit if needed for complex business logic",
+      "Add unit tests for state management"
+    ]
+  },
+
+  "summary_of_findings": {
+    "architecture_ready": {
+      "supabase_plan": "Clearly defined for Phase 4 (Weeks 11-12)",
+      "database_schema": "Fully designed in documentation",
+      "sync_strategy": "Documented (SQLite + Supabase async)",
+      "parent_features": "Requirements specified in docs"
+    },
+    "architecture_missing": {
+      "all_implementation": "Code layer completely missing",
+      "authentication": "No auth flow implemented",
+      "data_persistence": "No SQLite/database code",
+      "state_management": "No formal pattern (waiting for repos)",
+      "services": "No service layer exists"
+    },
+    "critical_blockers": [
+      "No database implementation - blocks all features",
+      "No data models in code - only in documentation",
+      "No authentication - can't track users",
+      "No repositories/services - data layer missing"
+    ],
+    "immediate_next_steps": [
+      "Add drift + sqlite to pubspec.yaml",
+      "Create app_database.dart with drift schema",
+      "Implement core models (User, Lesson, Progress)",
+      "Create repository layer",
+      "Add shared_preferences for settings",
+      "Setup Supabase credentials in .env"
+    ],
+    "project_readiness": "70% ready (strong UI/design foundation, zero backend)"
+  },
+
+  "risk_assessment": {
+    "high_risks": [
+      {
+        "risk": "Data loss during sync",
+        "mitigation": "Implement last-write-wins conflict resolution; extensive testing",
+        "referenced_in": "DEVELOPMENT_PLAN.md risk table"
+      },
+      {
+        "risk": "COPPA compliance for kids app",
+        "mitigation": "Consult requirements early (Week 14); implement parental consent flows",
+        "referenced_in": "DEVELOPMENT_PLAN.md Week 16 tasks"
+      },
+      {
+        "risk": "No data persistence = zero retention",
+        "mitigation": "Prioritize database implementation as Week 1 task",
+        "priority": "CRITICAL"
+      }
+    ],
+    "medium_risks": [
+      "Performance issues on low-end devices",
+      "Supabase learning curve",
+      "Audio asset delays",
+      "Multi-device sync complexity"
+    ],
+    "low_risks": [
+      "UI/UX polish (already solid)",
+      "Animation performance (using flutter_animate)"
+    ]
+  },
+
+  "resource_links": {
+    "documentation_files": [
+      "DEVELOPMENT_PLAN.md (complete 16-week plan)",
+      "plan/06_database_models/data_architecture.md (schema design)",
+      "plan/01_incomplete_features/learning_system_requirements.md (feature specs)",
+      "plan/07_documentation/development_roadmap.md (detailed roadmap)",
+      "plan/07_documentation/project_overview.md (project summary)",
+      ".github/copilot-instructions.md (AI coding guidelines)"
+    ],
+    "source_code_references": {
+      "parent_dashboard": "lib/screens/parent/parent_dashboard_screen.dart (331 lines, UI complete)",
+      "splash_screen": "lib/screens/splash_screen.dart (entry point)",
+      "env_template": ".env (placeholder credentials)"
+    },
+    "planned_file_structure": [
+      "lib/data/database/app_database.dart",
+      "lib/data/models/user.dart, lesson.dart, etc.",
+      "lib/data/repositories/* (6+ repositories needed)",
+      "lib/services/audio_service.dart (planned)"
+    ]
+  }
+}
